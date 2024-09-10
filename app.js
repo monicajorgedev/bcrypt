@@ -1,12 +1,10 @@
 const express = require('express');
+const app = express();
 
 const session = require('express-session');
 
-const app = express();
-const PORT = 3000;
-
-const usersRouter = require('./routes/users')
-const {secret} = require('./crypto/config')
+const router = require('./routes/users')
+const hashedSecret = require('./crypto/config')
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -15,15 +13,17 @@ app.use(express.json());
 
 app.use(
     session({
-      secret: secret,
+      secret: hashedSecret,
       resave: false,
       saveUninitialized: true,
       cookie: { secure: false },
     })
   );
 
-  app.use('/',usersRouter)
+  app.use('/',router)
 
-app.listen(PORT, () => {
-    console.log(`Servidor en http://localhost:${PORT}`);
-});
+  const PORT = 3000;
+
+  app.listen(PORT, () => {
+      console.log(`Servidor en http://localhost:${PORT}`);
+  });

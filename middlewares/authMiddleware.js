@@ -1,5 +1,5 @@
 
-const {hashedSecret, secret} = require('../crypto/config')
+const hashedSecret = require('../crypto/config')
 const jwt = require('jsonwebtoken');
 
 function generateToken(user) {
